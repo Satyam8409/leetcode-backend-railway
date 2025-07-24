@@ -23,7 +23,8 @@ const register=async(req,res)=>{
         res.cookie('token', token, {
             httpOnly: true,
             sameSite: "None",
-            secure: true
+            secure: true,
+            maxAge: 2 * 24 * 60 * 60 * 1000,  // 2 days in ms — match JWT expiry
         });
 
 
@@ -62,7 +63,8 @@ const login=async (req,res)=>{
         res.cookie('token', token, {
             httpOnly: true,
             sameSite: "None",
-            secure: true
+            secure: true,
+            maxAge: 2 * 24 * 60 * 60 * 1000  // 2 days in ms — match JWT expiry
         });
 
 
