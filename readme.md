@@ -1,7 +1,7 @@
 LEETCODE_PROJECT
 
 1.How we will run our code
--Judge0:an open-source online code execution engine ,our code will be run by Judge0 ,we wont run our code directly on          server bcz code might be dangerous and can damage the server.
+-Judge0:an open-source online code execution engine ,our code will be run by Judge0 ,we wont run our code directly on        server bcz code might be dangerous and can damage the server. also it will increase the load on server.
 
 2.firstly we are working on Backend
 2.1.API
@@ -50,3 +50,4 @@ LEETCODE_PROJECT
     8.npm i jsonwebtoken
     9.npm i redis
     10.npm i axios
+

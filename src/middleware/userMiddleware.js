@@ -20,6 +20,7 @@ const userMiddleware=async (req,res,next)=>{
         const isBlocked=await redisClient.exists(`token:${token}`);
         if(isBlocked) throw new Error("this token is blocked");
         
+        //did this so that user data is available and no need to request again from db ,so save db call
         req.user=dbUser;
         req._id=_id;
 

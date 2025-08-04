@@ -90,19 +90,11 @@ const submitCode=async (req,res)=>{
             runtime,
             memory
         });
-
     }
     catch(err){
       res.status(400).send("error:" +err)
     }
-    
-
-
 }
-
-
-
-
 
 const runCode=async (req,res)=>{
     try{
@@ -129,10 +121,6 @@ const runCode=async (req,res)=>{
         const submitResult=await submitBatch(submission);
         const resultToken=submitResult.map(val=>val.token);
         const testResult=await submitToken(resultToken);
-        // console.log(testResult);
-        // res.status(201).send(testResult);
-        // const accepted=(status=='accepted')
-
         //after frontend made thi change
         let status=true;
         let testCasesPassed=0;
@@ -163,16 +151,10 @@ const runCode=async (req,res)=>{
             runtime,
             memory
         });
-
-
-
     }
     catch(err){
       res.status(400).send("error:" +err)
     }
-    
-
-
 }
 
 

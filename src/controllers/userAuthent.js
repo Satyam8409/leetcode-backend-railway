@@ -6,8 +6,7 @@ const redisClient = require('../config/redis');
 const Submission=require('../models/submission');
 
 /*Yes, schema validation runs automatically during User.create(), and 
-your custom validate() runs manually before that. Both layers work together to ensure clean, correct data.
-
+custom validate() runs manually before that. why custom validator run firat bcz to save db call bcz it does not need db call to check data
 */
 
 const register=async(req,res)=>{
@@ -21,20 +20,20 @@ const register=async(req,res)=>{
         const token=jwt.sign({_id:dbUser.id, emailId:dbUser.emailId},process.env.SECRET_KEY,{expiresIn:'2d'});//jwt token generation
         // res.cookie('token',token)
         res.cookie('token', token, {
-            httpOnly: true,
-            sameSite: "None",
-            secure: true,
-            maxAge: 2 * 24 * 60 * 60 * 1000,  // 2 days in ms — match JWT expiry
+            httpOnly: true, //cookie cant be even accessed via js code by anybody ,saves from XSS attack
+            sameSite: "None",//allow cookie to be sent with cross-site request(means frontend & backend on diff domain)
+            secure: true,   //cookie is sent over HTTPS connection not over HTTP ,ensure secure transport
+            maxAge: 2 * 24 * 60 * 60 * 1000,//this helps with to keep user logined untill token is valid //2 days in ms
         });
 
 
         // res.status(201).send('user registered successfully');
         const reply = {
-    firstName: dbUser.firstName,
-    emailId: dbUser.emailId,
-    _id: dbUser._id,
-    role: dbUser.role,
-};
+            firstName: dbUser.firstName,
+            emailId: dbUser.emailId,
+            _id: dbUser._id,
+            role: dbUser.role,
+        };
         res.status(200).json({
             user:reply,
             msg:'loggin successfully',

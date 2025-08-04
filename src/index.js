@@ -46,18 +46,3 @@ async function InitializeConnection(){
     
 }
 InitializeConnection();
-
-
-
-
-
-/*
-main()
-.then(async ()=>{
-    console.log('db conection successful');
-    app.listen(process.env.PORT, ()=>{
-        console.log('app listening on port 3000');
-    })
-})
-.catch(err=>console.log(err))
-*/

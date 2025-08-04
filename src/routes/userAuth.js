@@ -3,9 +3,7 @@ const {register, login, logout, adminRegister, deleteProfile}= require('../contr
 const userMiddleware = require('../middleware/userMiddleware');
 const adminMiddleware = require('../middleware/adminMiddleware');
 
-
 const authRouter= express.Router();
-
 
 authRouter.post('/register', register)
 authRouter.post('/login', login)
@@ -15,6 +13,7 @@ authRouter.post('/logout', userMiddleware, logout)
 authRouter.post('/admin/register', adminMiddleware, adminRegister);
 authRouter.delete('/deleteProfile', userMiddleware, deleteProfile);
 
+//this route created when started working with frontend bcz on frontend with each request there is api which run by-default ,so to handle that request this api created 
 authRouter.get('/check', userMiddleware, (req,res)=>{
     const reply={
         firstName:req.user.firstName,
@@ -27,11 +26,5 @@ authRouter.get('/check', userMiddleware, (req,res)=>{
         msg:'valid user',
     })
 })
-
-
-
-
-// authRouter.post('/getProfile', getProfile)
-
 
 module.exports=authRouter;
