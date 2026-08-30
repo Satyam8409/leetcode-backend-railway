@@ -12,11 +12,6 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 
-// app.use(cors({
-//     origin:'http://localhost:5173',
-//     credentials:true,
-// }))
-
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
@@ -36,8 +31,8 @@ async function InitializeConnection(){
         await Promise.all([redisClient.connect(),main()]);
         console.log('both db connection successful');
     
-        app.listen(process.env.PORT, ()=>{
-            console.log('app listening on port 3000');
+        app.listen(process.env.PORT,'0.0.0.0', ()=>{
+            console.log(`app listening on port ${process.env.PORT}`);
         })
     }
     catch(err){
