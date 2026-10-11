@@ -3,10 +3,11 @@ const axios=require('axios')
 const getlanguageById=(lang)=>{
     const language={
         "cpp":54,
+        "c++":54,
         "java":62,
         "javascript":63,
     }
-    return language[lang.toLowerCase()];
+    return language[lang.trim().toLowerCase()];
     // return language.lang;//is will be wrong bcz lang is parameter
 
 }
@@ -111,7 +112,6 @@ const submitToken=async (resultToken)=>{
   
 }
 module.exports={getlanguageById, submitBatch, submitToken};
-
 
 
 
