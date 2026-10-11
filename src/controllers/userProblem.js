@@ -3,6 +3,13 @@ const Problem = require("../models/problem");
 const User = require("../models/user");
 const Submission = require("../models/submission");
 
+const getJudgeError = (test) => ({
+  status: test.status?.description || 'Unknown status',
+  message: test.message || null,
+  compileOutput: test.compile_output || null,
+  stderr: test.stderr || null,
+  stdout: test.stdout || null
+});
 
 const createProblem=async (req,res)=>{
     const {title,description,difficulty,tags,visibleTestCases,hiddenTestCases,startCode,referenceSolution,problemCreater}=req.body;//ye sent data by admin ko direct db me store nhi kra skte hai,phele check krna prega ki valid hai ki nhi reference sol etc     //referenceSolution(rs) ko check krne ke liye visibleTestCases ka i/p denge or o/p se match hoga to right nhi to wrong //ye krne ke liye judge0 ka use krege
@@ -11,6 +18,11 @@ const createProblem=async (req,res)=>{
         //checking rs for all language(with all testcases) in judge0, isliye judge0 ke format me send krna necessary hai
         for(const {language,completeCode} of referenceSolution){      //rs array hai isliye uske andar ka data ko aise nikal rahe hai//judge0 ko language,completeCode, i/p, o/p ye sb cheez chaiye to decide if rs is right or not
             const langId=getlanguageById(language); 
+            if(!langId){
+              return res.status(400).json({
+                error: `Unsupported reference solution language: ${language}`
+              });
+            }
             console.log(langId);
             
             const submission=visibleTestCases.map((testcase)=>({  //creating batchh submition
@@ -32,7 +44,10 @@ const createProblem=async (req,res)=>{
             const testResult=await submitToken(resultToken);
             for(let test of testResult){
               if(test.status_id!=3){
-                return res.status(400).send('error occured');
+                return res.status(400).json({
+                  error: `Reference solution failed for ${language}`,
+                  details: getJudgeError(test)
+                });
               }
             }
         }
@@ -48,7 +63,7 @@ const createProblem=async (req,res)=>{
 
     }
     catch(err){
-      res.status(400).send("error:" +err)
+      res.status(400).json({ error: err.message })
     }
 
 
